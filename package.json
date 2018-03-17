@@ -1,0 +1,19 @@
+{
+  "name": "track-your-writing",
+  "version": "1.0.0",
+  "description": "Track your writing is a Wordpress plugin that tracks your most important writing data, ready to be challenged and beaten up. Level up your letter game with track your writing!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oscarssanchez/track-your-writing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oscarssanchez/track-your-writing/issues"
+  },
+  "homepage": "https://github.com/oscarssanchez/track-your-writing#readme"
+}

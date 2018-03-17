@@ -1,0 +1,15 @@
+{
+    "name": "oscar/track-your-writing",
+    "authors": [
+        {
+            "name": "Oscar Sanchez",
+            "email": "osanpk@comunidad.unam.mx"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "wp-coding-standards/wpcs": "*",
+        "wimg/php-compatibility": "*",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
+    }
+}
