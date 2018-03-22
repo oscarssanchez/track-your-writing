@@ -19,6 +19,7 @@ class Track_Your_Writing_Admin {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menus' ) );
 		add_action( 'admin_head', array( $this, 'add_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 	}
 	/**
 	 * Creates the admin menus for the plugin.
@@ -37,6 +38,12 @@ class Track_Your_Writing_Admin {
 	 */
 	public function add_styles() {
 		wp_enqueue_style( 'track_your_writing_css', plugins_url( '../css/track-your-writing.css', __FILE__ ) );
+	}
+	/**
+	 * Enqueues JS scripts
+	 */
+	public function add_scripts() {
+		wp_enqueue_script( 'tyw-scripts', plugins_url( '../js/tyw-scripts.js', __FILE__ ), array( 'jquery' ), true );
 	}
 	/**
 	 * Renders the whole admin page.
@@ -59,29 +66,45 @@ class Track_Your_Writing_Admin {
 	 * Renders the user profile section.
 	 */
 	public function render_user_profile() {
+		$users = $this->get_user_list();
 		?>
 		<div id="tyw-profile" class="postbox wrap">
 			<h2>Select a profile </h2>
 			<form>
-				<select name="user_profile"">
+				<select id="select_user_profile" name="tyw_user_profile"">
 				<?php
-				foreach ( $this->get_user_list() as $user ) {
+				foreach ( $users as $user ) {
 					echo '<option value="' . $user->ID . '">' . $user->display_name . '</option>';
 				}
 				?>
 				</select>
 			</form>
-			<div class="tyw-avatar">
-				<img src="http://2.gravatar.com/avatar/e7d234593425c4acf42ab423bd67f556?s=96&d=mm&r=g">
-			</div>
-			<div class="tyw-avatar-data">
-				<p><span>Name:</span> Oscar Sánchez</p>
-				<p><span>Role:</span> Author</p>
-				<p><span>Username:</span> seins345</p>
-				<p><span>Email:</span> osanpk@comunidad.unam.mx</p>
-			</div>
+			<?php
+			/** RENDER THE PROFILE DATA **/
+			echo $this->profile_data( 3 );
+			?>
 		</div>
 		<?php
+	}
+	/**
+	 * Profile data module
+	 *
+	 * @param int $id The ID of the user.
+	 *
+	 * @return string
+	 */
+	public function profile_data( $id ) {
+		$user_info = get_userdata( $id );
+		$html      =
+		'<div class="tyw-avatar">
+				<img src="' . get_avatar_url( $id ) . '">
+			</div>
+			<div class="tyw-avatar-data">
+				<p><span>Name:</span> ' . $user_info->first_name . ' ' . $user_info->last_name . '</p>
+				<p><span>Role:</span> ' . implode( $user_info->roles ) . '</p>
+				<p><span>Email:</span> ' . $user_info->user_email . '</p>
+			</div>';
+		return $html;
 	}
 	/**
 	 * Render the current user statistics.
