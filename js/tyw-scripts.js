@@ -4,8 +4,6 @@ var width = 600;
 height = d3.max(data, function(d){ return d.posts *100});
 barWidth = 20;
 
-var xAxis = d3.axisBottom(data, function)
-
 var yScale = d3.scaleLinear()
     .domain([0, height])
     .range([height, 0]);
