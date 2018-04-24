@@ -18,7 +18,6 @@ class Track_Your_Writing {
 	 * @var object
 	 */
 	public $admin_page;
-
 	/**
 	 * Track_your_writing constructor.
 	 */
@@ -41,6 +40,11 @@ class Track_Your_Writing {
 	 * Instantiates and loads the plugin classes.
 	 */
 	public function load_classes() {
-		$this->admin_page = new Track_Your_Writing_Admin();
+		$this->admin_page = new TYW_Admin();
 	}
+
+	public static function activate() {
+	    \TYW_Db::db_install();
+    }
+
 }

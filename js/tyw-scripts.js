@@ -1,18 +1,30 @@
-jQuery( document ).ready( function($) {
-   $( '#select_user_profile' ).change( function(){
-       var user_id = $(this).children(":selected").attr("value");
-       jQuery.ajax({
-           url : ajaxurl,
-           type: 'post',
-           data : {
-               action : 'tyw_user_profile',
-               user_id : user_id
-           },
-           sucess : function ( response ) {
-               alert(response);
-               console.log( 'Success retrieving id: ' + id );
-           }
-       });
-   });
-});
+var data = JSON.parse(php_vars);
 
+var width = 600;
+height = d3.max(data, function(d){ return d.posts *100});
+barWidth = 20;
+
+var xAxis = d3.axisBottom(data, function)
+
+var yScale = d3.scaleLinear()
+    .domain([0, height])
+    .range([height, 0]);
+
+d3.select("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .selectAll("rect")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("width", barWidth )
+    .attr("height", function(d) {
+        return d.posts *100 ;
+    })
+    .attr("y", function (d) {
+        return yScale(d);
+    })
+    .attr("x", function (d, i) {
+        return ( barWidth + 10) *i;
+    })
+    .attr("fill", "black");

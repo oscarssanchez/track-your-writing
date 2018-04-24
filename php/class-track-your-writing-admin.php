@@ -12,7 +12,7 @@ namespace TrackYourWriting;
  *
  * @package TrackYourWriting
  */
-class Track_Your_Writing_Admin {
+class TYW_Admin {
 	/**
 	 * Track_Your_Writing_Admin constructor.
 	 */
@@ -30,7 +30,7 @@ class Track_Your_Writing_Admin {
 			'Track your writing',
 			'manage_options',
 			'wp-trackyw',
-			array( $this, 'render_admin_page' )
+			array( $this, 'render_single_mode' )
 		);
 	}
 	/**
@@ -43,12 +43,14 @@ class Track_Your_Writing_Admin {
 	 * Enqueues JS scripts
 	 */
 	public function add_scripts() {
-		wp_enqueue_script( 'tyw-scripts', plugins_url( '../js/tyw-scripts.js', __FILE__ ), array( 'jquery' ), true );
+        wp_enqueue_script( 'd3-scripts', 'https://d3js.org/d3.v5.min.js');
+		wp_enqueue_script( 'tyw-scripts', plugins_url( '../js/tyw-scripts.js', __FILE__ ), array( 'jquery' ), '', true );
+        wp_localize_script( 'tyw-scripts', 'php_vars', TYW_User_Writing_Data::chart_data() );
 	}
 	/**
 	 * Renders the whole admin page.
 	 */
-	public function render_admin_page() {
+	public function render_single_mode() {
 		self::render_admin_header();
 		$this->render_user_profile();
 		$this->render_writing_stats();
@@ -62,61 +64,58 @@ class Track_Your_Writing_Admin {
 	public static function render_admin_header() {
 		echo '<div><h1>Track Your Writing</h1>';
 	}
-	/**
-	 * Renders the user profile section.
-	 */
-	public function render_user_profile() {
-		$users = $this->get_user_list();
-		?>
-		<div id="tyw-profile" class="postbox wrap">
-			<h2>Select a profile </h2>
-			<form>
-				<select id="select_user_profile" name="tyw_user_profile"">
-				<?php
-				foreach ( $users as $user ) {
-					echo '<option value="' . $user->ID . '">' . $user->display_name . '</option>';
-				}
-				?>
-				</select>
-			</form>
-			<?php
-			/** RENDER THE PROFILE DATA **/
-			echo $this->profile_data( 3 );
-			?>
-		</div>
-		<?php
-	}
-	/**
-	 * Profile data module
-	 *
-	 * @param int $id The ID of the user.
-	 *
-	 * @return string
-	 */
-	public function profile_data( $id ) {
-		$user_info = get_userdata( $id );
-		$html      =
-		'<div class="tyw-avatar">
-				<img src="' . get_avatar_url( $id ) . '">
-			</div>
-			<div class="tyw-avatar-data">
-				<p><span>Name:</span> ' . $user_info->first_name . ' ' . $user_info->last_name . '</p>
-				<p><span>Role:</span> ' . implode( $user_info->roles ) . '</p>
-				<p><span>Email:</span> ' . $user_info->user_email . '</p>
-			</div>';
-		return $html;
-	}
+    /**
+     * Renders the user profile section.
+     */
+    public function render_user_profile() {
+        ?>
+        <div id="tyw-profile" class="postbox wrap">
+            <h2> Select a profile </h2>
+            <p class="description">Select an author</p>
+            <form method="post" action="">
+                <?php
+                TYW_profile_manager::user_list();
+                submit_button( 'Update user' );
+                $this->single_mode_process_form();
+                ?>
+            </form>
+            <?php
+            $single_profile = new TYW_profile_manager();
+            $profile_data = $single_profile->user_profile();
+            ?>
+            <div class="tyw-avatar">
+                <img src="<?php echo $profile_data['avatar'] ?>">
+            </div>
+            <div class="tyw-avatar-data">
+                <div class="tyw-avatar-data">
+                    <p><span>Name:</span> <?php echo $profile_data['name']; ?></p>
+                    <p><span>Role:</span> <?php echo $profile_data['role']; ?></p>
+                    <p><span>Email:</span> <?php echo $profile_data['email']; ?></p>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
 	/**
 	 * Render the current user statistics.
 	 */
 	public function render_writing_stats() {
+	    $single_profile_stats = new TYW_User_Writing_Data();
+	    $author_totals = $single_profile_stats->author_total_stats();
+	    $author_month = $single_profile_stats->author_month_stats();
 		?>
 		<div class="tyw-settings-left">
 			<div class="postbox wrap writing-data">
 				<h2><span class="dashicons dashicons-chart-bar"></span> Your Stats</h2>
 				<p class="description">Display your current progress</p>
-				<p><span>32</span> Posts written this month</p>
-				<p><span>12502</span> Words written this month</p>
+                <p><span><?php echo $author_totals['total_posts'] ?></span> Total Posts</p>
+				<p><span><?php echo $author_month['month_posts'] ?></span> Posts written this Month</p>
+                <p><span><?php echo $author_totals['total_words']; ?></span> Words written in Total</p>
+                <p><span><?php echo $author_month['month_words'] ?></span> Words written this Month</p>
+                <p><span><?php echo $author_totals['avg_words'] ; ?></span> Words per post on Average</p>
+                <p><?php ; ?>)</p>
+
+
 			</div>
 		<?php
 	}
@@ -125,19 +124,13 @@ class Track_Your_Writing_Admin {
 	 */
 	public function render_set_goals() {
 		?>
-			<div class="postbox wrap set-goals">
-				<h1><span class="dashicons dashicons-flag"></span> Goal Setting</h1>
-				<p class="description">Set your goals here</p>
-				<form>
-					<label for="tyw-set-post">Set post number</label>
-					<input type="text">
-					<label for="tyw-set-time">Set time</label>
-					<select>
-						<option value="value1">Monthly</option>
-						<option value="value1">Weekly</option>
-					</select>
-					<?php submit_button(); ?>
-				</form>
+			<div class="postbox wrap writing-data ">
+				<h1> Compare </h1>
+				<p class="description">Compare your progress here</p>
+                <div>
+                    <svg></svg>
+                </div>
+
 			</div>
 		</div>
 		<?php
@@ -162,18 +155,13 @@ class Track_Your_Writing_Admin {
 	public static function render_admin_footer() {
 		echo '</div>';
 	}
-	/**
-	 * Gets the site user list with posting capabilities.
-	 *
-	 * @return array
-	 */
-	public function get_user_list() {
-		$users = get_users(
-			array(
-				'role__not_in' => array( 'contributor', 'subscriber' ),
-				'fields'       => array( 'display_name', 'ID' ),
-			)
-		);
-		return $users;
-	}
+    /**
+     * Process single mode form.
+     */
+    public function single_mode_process_form() {
+        if ( isset( $_POST[ 'tyw_user_profile_id'] ) ) {
+            update_option( 'tyw_user_profile_id', $_POST[ 'tyw_user_profile_id'] );
+        }
+    }
+
 }

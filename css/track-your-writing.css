@@ -1,5 +1,14 @@
+/*SVG CHARTS */
 
+.chart rect {
+    fill: darkgreen;
+}
 
+.rect text {
+    fill: white;
+    font: 10px sans-serif;
+    text-anchor: end;
+}
 
 /*Writing stats*/
 .tyw-settings-left {
