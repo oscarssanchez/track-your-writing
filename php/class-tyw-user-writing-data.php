@@ -101,6 +101,7 @@ class TYW_User_Writing_Data {
 			'author'      => get_option( 'tyw_user_profile_id' ),
 			'post_type'   => array( 'page', 'post' ),
 			'post_status' => 'publish',
+			'posts_per_page' => -1,
 			'date_query'  => array(
 				array(
 					'year' => date( 'Y' ),

@@ -20,6 +20,6 @@ defined( 'ABSPATH' ) or die( 'Access denied' );
 	require_once dirname( __FILE__ ) . '/php/class-track-your-writing-admin.php';
     require_once dirname( __FILE__ ) . '/php/class-tyw-db.php';
 	require_once dirname( __FILE__ ) . '/php/class-user-profile-manager.php';
-	require_once dirname( __FILE__ ) . '/php/class-user-writing-data.php';
+	require_once dirname( __FILE__ ) . '/php/class-tyw-user-writing-data.php';
 
 Track_Your_Writing::get_instance();
