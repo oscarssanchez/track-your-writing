@@ -44,7 +44,7 @@ class Track_Your_Writing {
 	}
 
 	public static function activate() {
-	    \TYW_Db::db_install();
-    }
+		\TYW_Db::db_install();
+	}
 
 }
