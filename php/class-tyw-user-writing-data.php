@@ -92,7 +92,7 @@ class TYW_User_Writing_Data {
 	}
 
 	/**
-	 * Organizes the data for Chart displaying.
+	 * Fetches and organizes the data for Chart displaying.
 	 *
 	 * @return mixed|null|
 	 */
@@ -111,81 +111,70 @@ class TYW_User_Writing_Data {
 
 		$query = new \WP_Query( $args );
 
-		$found_posts = array();
-		$months      = array(
-			'Jan' => 0,
-			'Feb' => 0,
-			'Mar' => 0,
-			'Apr' => 0,
-			'May' => 0,
-			'Jun' => 0,
-			'Jul' => 0,
-			'Aug' => 0,
-			'Sep' => 0,
-			'Oct' => 0,
-			'Nov' => 0,
-			'Dec' => 0,
-		);
-
 		if ( null == $query->found_posts ) {
 			return null;
 		}
 
+		$found_posts = array();
+
+		$month_keys     = array( 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' );
+		$month_defaults = array_fill_keys( $month_keys, 0 );
+
 		foreach ( $query->posts as $post ) {
-				$post_date = date( 'M', strtotime( $post->post_date ) );
-				array_push( $found_posts, $post_date );
+			$post_date = date( 'M', strtotime( $post->post_date ) );
+			array_push( $found_posts, $post_date );
 		}
-		$result      = array_count_values( $found_posts );
-		$found_posts = array_merge( $months, $result );
+		$post_date_results = array_count_values( $found_posts );
+		$post_count        = array_merge( $month_defaults, $post_date_results );
 
 		$month_chart_data = array(
 			array(
 				'month_name' => 'Jan',
-				'posts'      => $found_posts['Jan'],
+				'posts'      => $post_count['Jan'],
 			),
 			array(
 				'month_name' => 'Feb',
-				'posts'      => $found_posts['Feb'],
+				'posts'      => $post_count['Feb'],
 			),
 			array(
 				'month_name' => 'Mar',
-				'posts'      => $found_posts['Mar'],
+				'posts'      => $post_count['Mar'],
 			),
 			array(
 				'month_name' => 'Apr',
-				'posts'      => $found_posts['Apr'],
+				'posts'      => $post_count['Apr'],
 			),
 			array(
 				'month_name' => 'May',
-				'posts'      => $found_posts['May'],
+				'posts'      => $post_count['May'],
 			),
 			array(
 				'month_name' => 'Jun',
-				'posts'      => $found_posts['Jun'],
+				'posts'      => $post_count['Jun'],
 			),
 			array(
 				'month_name' => 'Jul',
-				'posts'      => $found_posts['Jul'],
+				'posts'      => $post_count['Jul'],
 			),
 			array(
 				'month_name' => 'Aug',
-				'posts'      => $found_posts['Aug'],
+				'posts'      => $post_count['Aug'],
 			),
 			array(
 				'month_name' => 'Sep',
-				'posts'      => $found_posts['Sep'],
+				'posts'      => $post_count['Sep'],
 			),
 			array(
 				'month_name' => 'Oct',
-				'posts'      => $found_posts['Oct'],
+				'posts'      => $post_count['Oct'],
 			),
 			array(
 				'month_name' => 'Nov',
-				'posts'      => $found_posts['Nov'],
+				'posts'      => $post_count['Nov'],
 			),
 			array(
 				'month_name' => 'Dec',
-				'posts'      => $found_posts['Dec'],
+				'posts'      => $post_count['Dec'],
 			),
 		);
 
@@ -194,4 +183,3 @@ class TYW_User_Writing_Data {
 	}
 
 }
-
