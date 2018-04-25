@@ -13,6 +13,7 @@ var width = 400;
 		.domain([0, MaxPosts])
 		.range([height, 0]);
 
+
 	var month_chart_svg = d3.select('#tyw_month_chart')
 		.attr('width', width)
 		.attr('height', height);
