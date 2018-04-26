@@ -1,16 +1,17 @@
 /*SVG CHARTS */
-
-.chart rect {
-    fill: darkgreen;
-}
-
-.rect text {
-    fill: white;
-    font: 10px sans-serif;
-    text-anchor: end;
+#tyw_month_chart {
+    margin-top: 1%;
+    margin-bottom: 5%;
+    width: inherit;
+    text-align: center;
 }
 
 /*Writing stats*/
+
+.tyw-totals {
+    font-size: 20px;
+}
+
 .tyw-settings-left {
     width:60%;
     float:left;

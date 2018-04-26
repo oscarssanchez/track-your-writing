@@ -15,7 +15,6 @@ use SebastianBergmann\Comparator\DateTimeComparator;
  * @package TrackYourWriting
  */
 class TYW_User_Writing_Data {
-
 	/**
 	 * Returns the current author total statistics
 	 *

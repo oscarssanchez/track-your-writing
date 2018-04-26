@@ -21,6 +21,7 @@ class TYW_Admin {
 		add_action( 'admin_head', array( $this, 'add_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 	}
+
 	/**
 	 * Creates the admin menus for the plugin.
 	 */
@@ -33,12 +34,14 @@ class TYW_Admin {
 			array( $this, 'render_single_mode' )
 		);
 	}
+
 	/**
 	 * Enqueues the CSS styles.
 	 */
 	public function add_styles() {
 		wp_enqueue_style( 'track_your_writing_css', plugins_url( '../css/track-your-writing.css', __FILE__ ) );
 	}
+
 	/**
 	 * Enqueues JS scripts
 	 */
@@ -47,6 +50,7 @@ class TYW_Admin {
 		wp_enqueue_script( 'tyw-scripts', plugins_url( '../js/tyw-scripts.js', __FILE__ ), array( 'jquery' ), '', true );
 		wp_localize_script( 'tyw-scripts', 'tyw_month_chart_data', TYW_User_Writing_Data::month_chart_post_data() );
 	}
+
 	/**
 	 * Renders the whole admin page.
 	 */
@@ -55,15 +59,16 @@ class TYW_Admin {
 		$this->render_user_profile();
 		$this->render_writing_stats();
 		$this->render_set_goals();
-		$this->render_goal_setting();
 		self::render_admin_footer();
 	}
+
 	/**
 	 * Renders the admin header
 	 */
 	public static function render_admin_header() {
 		echo '<div><h1>Track Your Writing</h1>';
 	}
+
 	/**
 	 * Renders the user profile section.
 	 */
@@ -74,6 +79,7 @@ class TYW_Admin {
 			<p class="description">Select an author</p>
 			<form method="post" action="">
 				<?php
+				wp_nonce_field( 'tyw_submit_user', 'tyw_submit_user_nonce' );
 				TYW_profile_manager::user_list();
 				submit_button( 'Update user' );
 				$this->single_mode_process_form();
@@ -96,6 +102,7 @@ class TYW_Admin {
 		</div>
 		<?php
 	}
+
 	/**
 	 * Render the current user statistics.
 	 */
@@ -108,14 +115,15 @@ class TYW_Admin {
 			<div class="postbox wrap writing-data">
 				<h2><span class="dashicons dashicons-chart-bar"></span> Your Stats</h2>
 				<p class="description">Display your current Statistics</p>
-				<p><span><?php echo $author_totals['total_posts']; ?></span> Total Posts</p>
-				<p><span><?php echo $author_month['month_posts']; ?></span> Posts written this Month</p>
-				<p><span><?php echo $author_totals['total_words']; ?></span> Words written in Total</p>
-				<p><span><?php echo $author_month['month_words']; ?></span> Words written this Month</p>
-				<p><span><?php echo $author_totals['avg_words']; ?></span> Words per post on Average</p>
+				<p><span class="tyw-totals"><?php echo $author_totals['total_posts']; ?></span> Total Posts</p>
+				<p><span class="tyw-totals"><?php echo $author_month['month_posts']; ?></span> Posts written this Month</p>
+				<p><span class="tyw-totals"><?php echo $author_totals['total_words']; ?></span> Words written in Total</p>
+				<p><span class="tyw-totals"><?php echo $author_month['month_words']; ?></span> Words written this Month</p>
+				<p><span class="tyw-totals"><?php echo $author_totals['avg_words']; ?></span> Words per post on Average</p>
 			</div>
 		<?php
 	}
+
 	/**
 	 * Render the current user goals.
 	 */
@@ -125,6 +133,7 @@ class TYW_Admin {
 				<h1> Compare </h1>
 				<p class="description">Compare your progress here</p>
 				<div id="tyw_compare_section">
+					<h1>Posts per Month</h1>
 					<svg id="tyw_month_chart"></svg>
 				</div>
 
@@ -132,32 +141,24 @@ class TYW_Admin {
 		</div>
 		<?php
 	}
-	/**
-	 * Render the goal setting section.
-	 */
-	public function render_goal_setting() {
-		?>
-		<div class="tyw-sidebar-left">
-			<div class="postbox wrap writing-goals">
-				<h1><span class="dashicons dashicons-awards"></span> Your Goals</h1>
-				<p>32/100 posts</p>
-				<p>12502/400,000 words</p>
-			</div>
-		</div>
-		<?php
-	}
+
 	/**
 	 * Renders the admin footer.
 	 */
 	public static function render_admin_footer() {
 		echo '</div>';
 	}
+
 	/**
 	 * Process single mode form.
 	 */
 	public function single_mode_process_form() {
-		if ( isset( $_POST['tyw_user_profile_id'] ) ) {
-			update_option( 'tyw_user_profile_id', $_POST['tyw_user_profile_id'] );
+		if ( isset( $_POST['tyw_submit_user_nonce'] ) ) {
+			if ( wp_verify_nonce( $_POST['tyw_submit_user_nonce'], 'tyw_submit_user' ) ) {
+				if ( isset( $_POST['tyw_user_profile_id'] ) ) {
+					update_option( 'tyw_user_profile_id', $_POST['tyw_user_profile_id'] );
+				}
+			}
 		}
 	}
 
