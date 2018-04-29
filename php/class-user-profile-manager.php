@@ -1,4 +1,9 @@
 <?php
+/**
+ * Track your writing profile manager.
+ *
+ * @package TrackYourWriting
+ */
 
 namespace TrackYourWriting;
 /**
@@ -6,7 +11,7 @@ namespace TrackYourWriting;
  *
  * @package TrackYourWriting
  */
-class TYW_profile_manager {
+class Profile_Manager {
 	/**
 	 * Gets the site user list with posting capabilities.
 	 *

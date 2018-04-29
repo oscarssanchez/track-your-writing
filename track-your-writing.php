@@ -1,14 +1,15 @@
 <?php
 /**
  * Plugin Name: Track Your Writing
- * Description: TYW in development
+ * Description: Track your and your site authors productivity with accurate and stunning visual data. Compare your progress and beat your past marks!
+ * Text Domain: track-your-writing
  * Plugin URI:
  * Version: 1.0
  * Author: Oscar Sańchez
  * Author URI: http://oscarssanchez.com
  * License: GPL2
  *
- * @package track-your-writing
+ * @package TrackYourWriting
  */
 
 namespace TrackYourWriting;
@@ -16,9 +17,9 @@ namespace TrackYourWriting;
 /** Prevent direct access to the file */
 defined( 'ABSPATH' ) or die( 'Access denied' );
 
-	require_once dirname( __FILE__ ) . '/php/class-track-your-writing.php';
-	require_once dirname( __FILE__ ) . '/php/class-track-your-writing-admin.php';
+	require_once dirname( __FILE__ ) . '/php/class-plugin.php';
+	require_once dirname( __FILE__ ) . '/php/class-admin.php';
 	require_once dirname( __FILE__ ) . '/php/class-user-profile-manager.php';
-	require_once dirname( __FILE__ ) . '/php/class-tyw-user-writing-data.php';
+	require_once dirname( __FILE__ ) . '/php/class-user-writing-data.php';
 
-Track_Your_Writing::get_instance();
+Plugin::get_instance();

@@ -5,27 +5,31 @@ var margin = {top: 30, right: 30, bottom: 40, left: 50};
 	height = 300 - margin.bottom - margin.top;
 	barWidth = width / data.length;
 	padding = 2;
+	tickPadding = 10;
 
-var MaxPosts = d3.max(data, function(d) {
+var MaxPosts, colorScale, yScale, month_chart_svg, month_chart_bar,
+	yAxis, xScale, xAxis, currentTime, year;
+
+MaxPosts = d3.max(data, function(d) {
 	return d.posts;
 });
 
-var colorScale = d3.scaleLinear()
+colorScale = d3.scaleLinear()
 	.domain([0, MaxPosts])
 	.range(['gray', 'green']);
 
-var yScale = d3.scaleLinear()
+yScale = d3.scaleLinear()
 	.domain([0, MaxPosts])
 	.range([height, 0]);
 
-var month_chart_svg = d3.select('#tyw_month_chart')
+month_chart_svg = d3.select( '#tyw_month_chart' )
 		.attr('width', width + margin.right + margin.left)
 		.attr('height', height + margin.bottom + margin.top)
 	.append('g')
 		.attr('transform', 'translate('+ margin.left + ', ' + margin.top + ')');
 
 
-var month_chart_bar = month_chart_svg.selectAll('g')
+month_chart_bar = month_chart_svg.selectAll( 'g' )
 	.data(data)
 	.enter()
 	.append('rect')
@@ -43,25 +47,26 @@ var month_chart_bar = month_chart_svg.selectAll('g')
 			return colorScale(d.posts);
 		});
 
-var yAxis = d3.axisLeft(yScale);
+yAxis = d3.axisLeft(yScale);
 
-d3.select('#tyw_month_chart')
+d3.select( '#tyw_month_chart' )
 	.append('g')
 		.attr('transform', 'translate('+ margin.left + ',' + margin.top + ')')
 	.call(yAxis);
 
-var xScale = d3.scaleTime()
 
-	//SET YEAR AUTOMATICALLY//
-	.domain([new Date(2012, 0, 1), new Date(2012, 11, 31)])
+currentTime = new Date();
+year = currentTime.getFullYear();
+
+xScale = d3.scaleTime()
+	.domain([new Date(year, 0, 1), new Date(year, 11, 31)])
 	.range([0, width]);
 
-	//SET TICK PADDING VALUE//
-var xAxis = d3.axisBottom(xScale)
+xAxis = d3.axisBottom(xScale)
 	.tickFormat(d3.timeFormat('%b'))
-	.tickPadding([10])
+	.tickPadding([tickPadding]);
 
-d3.select('#tyw_month_chart')
+d3.select( '#tyw_month_chart' )
 	.append('g')
 		.attr('class', 'x axis')
 		.attr('transform', 'translate(' + margin.left +',' + (height + margin.top +')'))

@@ -2,7 +2,7 @@
 /**
  * The main plugin class.
  *
- * @package track-your-writing
+ * @package TrackYourWriting
  */
 
 namespace TrackYourWriting;
@@ -11,7 +11,7 @@ namespace TrackYourWriting;
  *
  * @package TrackYourWriting
  */
-class Track_Your_Writing {
+class Plugin {
 	/**
 	 * The instantiated admin page class.
 	 *
@@ -29,7 +29,7 @@ class Track_Your_Writing {
 	/**
 	 * Initialize the main plugin class.
 	 *
-	 * @return null|Track_Your_Writing
+	 * @return Plugin
 	 */
 	public static function get_instance() {
 		static $instance = null;
@@ -43,6 +43,7 @@ class Track_Your_Writing {
 	 * Instantiates and loads the plugin classes.
 	 */
 	public function load_classes() {
-		$this->admin_page = new TYW_Admin();
+		$this->admin_page = new Admin();
+		$this->admin_page->init();
 	}
 }
