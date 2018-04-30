@@ -91,8 +91,8 @@ class Admin {
 	public function render_user_profile() {
 		?>
 		<div id="tyw-profile" class="postbox wrap">
-			<p class="description"><?php esc_html_e( 'Select an author', 'track-your-writing' ); ?></p>
 			<h2><?php esc_html_e( 'Select a profile', 'track-your-writing' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Select an author', 'track-your-writing' ); ?></p>
 			<form method="post" action="">
 				<?php
 				wp_nonce_field( 'tyw_submit_user', 'tyw_submit_user_nonce' );
@@ -110,7 +110,7 @@ class Admin {
 			</div>
 			<div class="tyw-avatar-data">
 				<div class="tyw-avatar-data">
-					<p><span><?php esc_html_e( 'Name', 'track-your-writing' ); ?>:</span> <?php echo esc_html( $profile_data['name'] ); ?></p>
+					<p><span><?php esc_html_e( 'Username', 'track-your-writing' ); ?>:</span> <?php echo esc_html( $profile_data['username'] ); ?></p>
 					<p><span><?php esc_html_e( 'Role', 'track-your-writing' ); ?>:</span> <?php echo esc_html( $profile_data['role'] ); ?></p>
 					<p><span><?php esc_html_e( 'Email', 'track-your-writing' ); ?>:</span> <?php echo esc_html( $profile_data['email'] ); ?></p>
 				</div>

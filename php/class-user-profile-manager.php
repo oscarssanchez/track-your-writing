@@ -45,13 +45,16 @@ class Profile_Manager {
 	 * @return array
 	 */
 	public function user_profile() {
-		$user_data = get_userdata( get_option( 'tyw_user_profile_id' ) );
+		if ( ! get_option( 'tyw_user_profile_id' ) ) {
+			update_option( 'tyw_user_profile_id', '1' );
+		}
 
+		$user_data         = get_userdata( get_option( 'tyw_user_profile_id' ) );
 		$user_profile_data = array(
-			'avatar' => get_avatar_url( get_option( 'tyw_user_profile_id' ) ),
-			'name'   => $user_data->first_name . ' ' . $user_data->last_name,
-			'role'   => implode( $user_data->roles ),
-			'email'  => $user_data->user_email,
+			'avatar'   => get_avatar_url( get_option( 'tyw_user_profile_id' ) ),
+			'username' => $user_data->user_login,
+			'role'     => implode( $user_data->roles ),
+			'email'    => $user_data->user_email,
 		);
 
 		return $user_profile_data;
