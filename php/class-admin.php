@@ -8,12 +8,11 @@
 namespace TrackYourWriting;
 
 /**
- * Class TYW_Admin
+ * Class Admin
  *
  * @package TrackYourWriting
  */
 class Admin {
-
 	/**
 	 * Track your writing slug.
 	 *
@@ -62,7 +61,7 @@ class Admin {
 	 * Enqueues JS scripts
 	 */
 	public function add_scripts() {
-		wp_enqueue_script( 'd3-scripts', 'https://d3js.org/d3.v5.min.js' );
+		wp_enqueue_script( 'd3-scripts', plugins_url( '../js/d3/d3.min.js', __FILE__ ) );
 		wp_enqueue_script( 'tyw-scripts', plugins_url( '../js/tyw-scripts.js', __FILE__ ), array( 'jquery' ), '', true );
 		wp_localize_script( 'tyw-scripts', 'tyw_month_chart_data', User_Writing_Data::month_chart_post_data() );
 	}
@@ -163,12 +162,8 @@ class Admin {
 	 * Process single mode form.
 	 */
 	public function single_mode_process_form() {
-		if ( isset( $_POST['tyw_submit_user_nonce'] ) ) {
-			if ( wp_verify_nonce( $_POST['tyw_submit_user_nonce'], 'tyw_submit_user' ) ) {
-				if ( isset( $_POST['tyw_user_profile_id'] ) ) {
-					update_option( 'tyw_user_profile_id', sanitize_text_field( wp_unslash( $_POST['tyw_user_profile_id'] ) ) );
-				}
-			}
+		if ( isset( $_POST['tyw_submit_user_nonce'] ) && wp_verify_nonce( $_POST['tyw_submit_user_nonce'], 'tyw_submit_user' ) && isset( $_POST['tyw_user_profile_id'] ) ) {
+			update_option( 'tyw_user_profile_id', sanitize_text_field( wp_unslash( $_POST['tyw_user_profile_id'] ) ) );
 		}
 	}
 

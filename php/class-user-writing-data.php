@@ -2,12 +2,13 @@
 /**
  * The authors writing data module
  *
- * @package @package TrackYourWriting
+ * @package TrackYourWriting
  */
 
 namespace TrackYourWriting;
+
 /**
- * Class TYW_User_Writing_Data
+ * Class User_Writing_Data
  *
  * @package TrackYourWriting
  */

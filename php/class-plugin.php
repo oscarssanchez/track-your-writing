@@ -6,6 +6,7 @@
  */
 
 namespace TrackYourWriting;
+
 /**
  * Instantiates and initializes the plugin.
  *

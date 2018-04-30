@@ -6,8 +6,9 @@
  */
 
 namespace TrackYourWriting;
+
 /**
- * Class TYW_profile_manager
+ * Class Profile_Manager
  *
  * @package TrackYourWriting
  */
@@ -20,7 +21,7 @@ class Profile_Manager {
 	public static function get_users() {
 		$users = get_users(
 			array(
-				'role__not_in' => array( 'contributor', 'subscriber' ),
+				'role__in' => array( 'administrator', 'editor', 'author' ),
 				'fields'       => array( 'display_name', 'ID' ),
 			)
 		);
@@ -33,7 +34,7 @@ class Profile_Manager {
 	public static function user_list() {
 		echo '<select id="select_user_profile" name="tyw_user_profile_id">';
 		foreach ( self::get_users() as $user ) {
-			echo '<option value="' . $user->ID . '">' . $user->display_name . '</option>';
+			echo '<option value="' . esc_attr( $user->ID ) . '">' . esc_html( $user->display_name ) . '</option>';
 		}
 		echo '</select>';
 	}
