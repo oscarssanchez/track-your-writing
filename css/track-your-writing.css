@@ -5,6 +5,7 @@
 	width: inherit;
 	text-align: center;
 }
+
 /*
 * Writing stats
 */
@@ -14,8 +15,8 @@
 }
 
 .tyw-settings-left {
-	width:60%;
-	float:left;
+	width: 60%;
+	float: left;
 }
 
 .tyw-sidebar-left {
@@ -41,7 +42,7 @@
 	border-bottom: 1px solid #efefef;
 }
 
-.writing-goals p{
+.writing-goals p {
 	font-size: 20px;
 }
 
@@ -50,7 +51,7 @@
 	padding-right: 20px;
 }
 
-.writing-data h2{
+.writing-data h2 {
 	border-bottom: 1px solid #efefef;
 }
 .set-goals {
@@ -67,6 +68,7 @@
 /*
 * Profile
 */
+
 #tyw-profile {
 	padding-left: 20px;
 }
@@ -84,5 +86,3 @@
 .tyw-avatar-data span {
 	font-weight: 600;
 }
-
-
