@@ -100,7 +100,7 @@ class User_Writing_Data {
 			return null;
 		}
 
-		$found_posts = array();
+		$found_posts    = array();
 		$month_keys     = array( 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' );
 		$month_defaults = array_fill_keys( $month_keys, 0 );
 
@@ -109,56 +109,11 @@ class User_Writing_Data {
 		}
 		$post_date_results = array_count_values( $found_posts );
 		$post_count        = array_merge( $month_defaults, $post_date_results );
-		$month_chart_data = array(
-			array(
-				'month_name' => 'Jan',
-				'posts'      => $post_count['Jan'],
-			),
-			array(
-				'month_name' => 'Feb',
-				'posts'      => $post_count['Feb'],
-			),
-			array(
-				'month_name' => 'Mar',
-				'posts'      => $post_count['Mar'],
-			),
-			array(
-				'month_name' => 'Apr',
-				'posts'      => $post_count['Apr'],
-			),
-			array(
-				'month_name' => 'May',
-				'posts'      => $post_count['May'],
-			),
-			array(
-				'month_name' => 'Jun',
-				'posts'      => $post_count['Jun'],
-			),
-			array(
-				'month_name' => 'Jul',
-				'posts'      => $post_count['Jul'],
-			),
-			array(
-				'month_name' => 'Aug',
-				'posts'      => $post_count['Aug'],
-			),
-			array(
-				'month_name' => 'Sep',
-				'posts'      => $post_count['Sep'],
-			),
-			array(
-				'month_name' => 'Oct',
-				'posts'      => $post_count['Oct'],
-			),
-			array(
-				'month_name' => 'Nov',
-				'posts'      => $post_count['Nov'],
-			),
-			array(
-				'month_name' => 'Dec',
-				'posts'      => $post_count['Dec'],
-			),
-		);
+		$month_chart_data  = array();
+
+		foreach ( $post_count as $item ) {
+			array_push( $month_chart_data, array( 'posts' => $item ) );
+		}
 
 		return json_encode( $month_chart_data );
 
