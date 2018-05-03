@@ -18,29 +18,28 @@ class Profile_Manager {
 	 *
 	 * @return array
 	 */
-	public static function get_users() {
-		$users = get_users(
+	public function get_users() {
+		return get_users(
 			array(
 				'role__in' => array( 'administrator', 'editor', 'author' ),
-				'fields'       => array( 'display_name', 'ID' ),
+				'fields'   => array( 'display_name', 'ID' ),
 			)
 		);
-		return $users;
 	}
 
 	/**
 	 * Renders a list of users with posting capabilities.
 	 */
-	public static function user_list() {
+	public function user_list() {
 		echo '<select id="select_user_profile" name="tyw_user_profile_id">';
-		foreach ( self::get_users() as $user ) {
+		foreach ( $this->get_users() as $user ) {
 			echo '<option value="' . esc_attr( $user->ID ) . '">' . esc_html( $user->display_name ) . '</option>';
 		}
 		echo '</select>';
 	}
 
 	/**
-	 * Gets the user profile
+	 * Gets the user profile.
 	 *
 	 * @return array
 	 */
@@ -48,15 +47,13 @@ class Profile_Manager {
 		if ( ! get_option( 'tyw_user_profile_id' ) ) {
 			update_option( 'tyw_user_profile_id', '1' );
 		}
+		$user_data = get_userdata( get_option( 'tyw_user_profile_id' ) );
 
-		$user_data         = get_userdata( get_option( 'tyw_user_profile_id' ) );
-		$user_profile_data = array(
+		return array(
 			'avatar'   => get_avatar_url( get_option( 'tyw_user_profile_id' ) ),
 			'username' => $user_data->user_login,
 			'role'     => implode( $user_data->roles ),
 			'email'    => $user_data->user_email,
 		);
-
-		return $user_profile_data;
 	}
 }

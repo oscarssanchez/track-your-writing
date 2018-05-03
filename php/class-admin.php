@@ -13,15 +13,39 @@ namespace TrackYourWriting;
  * @package TrackYourWriting
  */
 class Admin {
-	/**
-	 * Track your writing slug.
-	 *
-	 * @var string
-	 */
-	public $_slug = 'track-your-writing';
 
 	/**
-	 * Track_Your_Writing_Admin initializer.
+	 * Instance of the plugin.
+	 *
+	 * @var object
+	 */
+	public $plugin;
+
+	/**
+	 * Track Your Writing slug.
+	 *
+	 * @const string
+	 */
+	const SLUG = 'track-your-writing';
+
+	/**
+	 * Action to submit a new user.
+	 *
+	 * @const string.
+	 */
+	const FORM_ACTION = 'tyw_submit_user';
+
+	/**
+	 * Instantiate this class.
+	 *
+	 * @param object $plugin Instance of the plugin.
+	 */
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+	}
+
+	/**
+	 * Admin initializer.
 	 */
 	public function init() {
 		add_action( 'admin_menu', array( $this, 'admin_menus' ) );
@@ -47,7 +71,7 @@ class Admin {
 	 * Loads the plugin textdomain. Enables plugin translation.
 	 */
 	public function textdomain() {
-		load_plugin_textdomain( $this->_slug );
+		load_plugin_textdomain( self::SLUG );
 	}
 
 	/**
@@ -61,9 +85,9 @@ class Admin {
 	 * Enqueues JS scripts
 	 */
 	public function add_scripts() {
-		wp_enqueue_script( 'd3-scripts', plugins_url( '../js/d3/d3.min.js', __FILE__ ) );
+		wp_enqueue_script( 'd3-scripts', plugins_url( '../vendor/d3/d3.min.js', __FILE__ ) );
 		wp_enqueue_script( 'tyw-scripts', plugins_url( '../js/tyw-scripts.js', __FILE__ ), array( 'jquery' ), '', true );
-		wp_localize_script( 'tyw-scripts', 'tyw_month_chart_data', User_Writing_Data::month_chart_post_data() );
+		wp_localize_script( 'tyw-scripts', 'tyw_month_chart_data', $this->plugin->components->user_writing_data->month_chart_post_data() );
 	}
 
 	/**
@@ -95,15 +119,14 @@ class Admin {
 			<p class="description"><?php esc_html_e( 'Select an author', 'track-your-writing' ); ?></p>
 			<form method="post" action="">
 				<?php
-				wp_nonce_field( 'tyw_submit_user', 'tyw_submit_user_nonce' );
-				Profile_Manager::user_list();
+				wp_nonce_field( self::FORM_ACTION, 'tyw_submit_user_nonce' );
+				$this->plugin->components->profile_manager->user_list();
 				submit_button( 'Update user' );
 				$this->single_mode_process_form();
 				?>
 			</form>
 			<?php
-			$single_profile = new Profile_Manager();
-			$profile_data   = $single_profile->user_profile();
+			$profile_data = $this->plugin->components->profile_manager->user_profile();
 			?>
 			<div class="tyw-avatar">
 				<img src="<?php echo esc_url( $profile_data['avatar'] ); ?>">
@@ -123,9 +146,8 @@ class Admin {
 	 * Render the current user statistics.
 	 */
 	public function render_writing_stats() {
-		$single_profile_stats = new User_Writing_Data();
-		$author_totals        = $single_profile_stats->author_total_stats();
-		$author_month         = $single_profile_stats->author_month_stats();
+		$author_totals = $this->plugin->components->user_writing_data->author_total_stats();
+		$author_month  = $this->plugin->components->user_writing_data->author_month_stats();
 		?>
 		<div class="tyw-settings-left">
 			<div class="postbox wrap writing-data">
@@ -162,7 +184,7 @@ class Admin {
 	 * Process single mode form.
 	 */
 	public function single_mode_process_form() {
-		if ( isset( $_POST['tyw_submit_user_nonce'] ) && wp_verify_nonce( $_POST['tyw_submit_user_nonce'], 'tyw_submit_user' ) && isset( $_POST['tyw_user_profile_id'] ) ) {
+		if ( isset( $_POST['tyw_submit_user_nonce'] ) && wp_verify_nonce( $_POST['tyw_submit_user_nonce'], self::FORM_ACTION ) && isset( $_POST['tyw_user_profile_id'] ) ) {
 			update_option( 'tyw_user_profile_id', sanitize_text_field( wp_unslash( $_POST['tyw_user_profile_id'] ) ) );
 		}
 	}

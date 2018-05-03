@@ -1,7 +1,7 @@
 {
   "name": "track-your-writing",
-  "version": "0.1",
-  "description": "Track your writing is a Wordpress plugin that tracks your most important writing data, ready to be challenged and beaten up. Level up your letter game with track your writing!",
+  "version": "1.0.0",
+  "description": "![Select an image, add text, and choose a link.](assets/titlebar.png)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

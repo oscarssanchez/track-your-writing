@@ -14,7 +14,7 @@ namespace TrackYourWriting;
  */
 class User_Writing_Data {
 	/**
-	 * Returns the current author total statistics
+	 * Returns the current author total statistics.
 	 *
 	 * @return array
 	 */
@@ -23,6 +23,7 @@ class User_Writing_Data {
 			'author'      => get_option( 'tyw_user_profile_id' ),
 			'post_type'   => array( 'page', 'post' ),
 			'post_status' => 'publish',
+			'posts_per_page' => 500,
 		);
 
 		$query = new \WP_Query( $args );
@@ -47,7 +48,7 @@ class User_Writing_Data {
 	}
 
 	/**
-	 * Returns the current author monthly statistics.
+	 * Returns the current author's monthly statistics.
 	 *
 	 * @return array
 	 */
@@ -56,6 +57,7 @@ class User_Writing_Data {
 			'author'      => get_option( 'tyw_user_profile_id' ),
 			'post_type'   => array( 'page', 'post' ),
 			'post_status' => 'publish',
+			'posts_per_page' => 100,
 			'date_query'  => array(
 				array(
 					'after' => '30 days ago',
@@ -81,7 +83,7 @@ class User_Writing_Data {
 	 *
 	 * @return mixed|null|
 	 */
-	public static function month_chart_post_data() {
+	public function month_chart_post_data() {
 		$args = array(
 			'author'         => get_option( 'tyw_user_profile_id' ),
 			'post_type'      => array( 'page', 'post' ),

@@ -1,7 +1,7 @@
 # track-your-writing
 ![Select an image, add text, and choose a link.](assets/titlebar.png)
 
-Track your writing is a Wordpress plugin that tracks your most important writing data, ready to be challenged and beaten up. Level up your letter game with track your writing!
+Track your writing tracks your most important writing data, ready to be challenged and beaten up. Level up your letter game!
 
 **Contributors:** [oscarssanchez](https://profiles.wordpress.org/oscarssanchez)  
 **Tested up to:** 4.9  
@@ -11,7 +11,7 @@ Track your writing is a Wordpress plugin that tracks your most important writing
 
 # Description 
 
-Track-your-writing sparkles the Authors interest to start writing more
+Track yourwriting sparkles the author's interest to start writing more
 often and with higher quality by showing you your own progress. It can show the progress of multiple authors,
 so if you have a website with multiple collaborators, everybody knows how well (or bad!) they are performing.
 
