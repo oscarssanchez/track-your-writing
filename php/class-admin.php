@@ -24,14 +24,14 @@ class Admin {
 	/**
 	 * Track Your Writing slug.
 	 *
-	 * @const string
+	 * @var string
 	 */
 	const SLUG = 'track-your-writing';
 
 	/**
 	 * Action to submit a new user.
 	 *
-	 * @const string.
+	 * @var string.
 	 */
 	const FORM_ACTION = 'tyw_submit_user';
 
@@ -68,7 +68,7 @@ class Admin {
 	}
 
 	/**
-	 * Loads the plugin textdomain. Enables plugin translation.
+	 * Loads the plugin textdomain, enables plugin translation.
 	 */
 	public function textdomain() {
 		load_plugin_textdomain( self::SLUG );
@@ -101,11 +101,11 @@ class Admin {
 	}
 
 	/**
-	 * Renders the admin header
+	 * Renders the admin header.
 	 */
 	public function render_admin_header() {
 		?>
-		<div><h1><?php esc_html_e( 'Track Your Writing', 'track-your-writing' ); ?></h1>'
+		<div><h1><?php esc_html_e( 'Track Your Writing', 'track-your-writing' ); ?></h1>
 		<?php
 	}
 
@@ -121,7 +121,7 @@ class Admin {
 				<?php
 				wp_nonce_field( self::FORM_ACTION, 'tyw_submit_user_nonce' );
 				$this->plugin->components->profile_manager->user_list();
-				submit_button( 'Update user' );
+				submit_button( __( 'Update user', 'track-your-writing' ) );
 				$this->single_mode_process_form();
 				?>
 			</form>
@@ -153,11 +153,11 @@ class Admin {
 			<div class="postbox wrap writing-data">
 				<h2><span class="dashicons dashicons-chart-bar"></span> <?php esc_html_e( 'Your Stats', 'track-your-writing' ); ?></h2>
 				<p class="description"><?php esc_html_e( 'Display your current Statistics', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['total_posts'] ); ?></span> <?php esc_html_e( 'Total Posts', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_month['month_posts'] ); ?></span><?php esc_html_e( 'Posts written this Month', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['total_words'] ); ?></span><?php esc_html_e( 'Words written in Total', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_month['month_words'] ); ?></span><?php esc_html_e( 'Words written this Month', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['avg_words'] ); ?></span><?php esc_html_e( 'Words per post on Average', 'track-your-writing' ); ?></p>
+				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['total_posts'] ); ?></span> <?php esc_html_e( ' Total Posts', 'track-your-writing' ); ?></p>
+				<p><span class="tyw-totals"><?php echo esc_html( $author_month['month_posts'] ); ?></span><?php esc_html_e( ' Posts written this Month', 'track-your-writing' ); ?></p>
+				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['total_words'] ); ?></span><?php esc_html_e( ' Words written in Total', 'track-your-writing' ); ?></p>
+				<p><span class="tyw-totals"><?php echo esc_html( $author_month['month_words'] ); ?></span><?php esc_html_e( ' Words written this Month', 'track-your-writing' ); ?></p>
+				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['avg_words'] ); ?></span><?php esc_html_e( ' Words per post on Average', 'track-your-writing' ); ?></p>
 			</div>
 		<?php
 	}

@@ -1,8 +1,8 @@
 {
   "name": "track-your-writing",
-  "version": "1.0.0",
+  "version": "0.1",
   "description": "![Select an image, add text, and choose a link.](assets/titlebar.png)",
-  "main": "index.js",
+  "main": "tyw-scripts.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -20,13 +20,13 @@ class User_Writing_Data {
 	 */
 	public function author_total_stats() {
 		$args = array(
-			'author'      => get_option( 'tyw_user_profile_id' ),
-			'post_type'   => array( 'page', 'post' ),
-			'post_status' => 'publish',
+			'author'         => get_option( 'tyw_user_profile_id' ),
+			'post_type'      => array( 'page', 'post' ),
+			'post_status'    => 'publish',
 			'posts_per_page' => 500,
 		);
 
-		$query = new \WP_Query( $args );
+		$query       = new \WP_Query( $args );
 		$total_words = 0;
 		foreach ( $query->posts as $post ) {
 			$content = str_word_count( $post->post_content );
@@ -54,17 +54,17 @@ class User_Writing_Data {
 	 */
 	public function author_month_stats() {
 		$args = array(
-			'author'      => get_option( 'tyw_user_profile_id' ),
-			'post_type'   => array( 'page', 'post' ),
-			'post_status' => 'publish',
+			'author'         => get_option( 'tyw_user_profile_id' ),
+			'post_type'      => array( 'page', 'post' ),
+			'post_status'    => 'publish',
 			'posts_per_page' => 100,
-			'date_query'  => array(
+			'date_query'     => array(
 				array(
 					'after' => '30 days ago',
 				),
 			),
 		);
-		$query = new \WP_Query( $args );
+		$query         = new \WP_Query( $args );
 		$monthly_words = 0;
 		foreach ( $query->posts as $post ) {
 			$content = str_word_count( $post->post_content );
@@ -81,7 +81,7 @@ class User_Writing_Data {
 	/**
 	 * Fetches and organizes the data for Chart displaying.
 	 *
-	 * @return mixed|null|
+	 * @return array|null|
 	 */
 	public function month_chart_post_data() {
 		$args = array(
@@ -89,7 +89,7 @@ class User_Writing_Data {
 			'post_type'      => array( 'page', 'post' ),
 			'post_status'    => 'publish',
 			'posts_per_page' => 100,
-			'date_query'  => array(
+			'date_query'     => array(
 				array(
 					'year' => date( 'Y' ),
 				),

@@ -9,51 +9,51 @@ var tywChart = jQuery( document ).ready( function() {
 	padding = 2;
 	tickPadding = 10;
 
-	var MaxPosts, colorScale, yScale, monthChartSvg, monthChartBar,
+	var maxPosts, colorScale, yScale, monthChartSvg, monthChartBar,
 		yAxis, xScale, xAxis, currentTime, year;
 
-	MaxPosts = d3.max( data, function(d) {
+	maxPosts = d3.max( data, function( d ) {
 		return d.posts;
 	} );
 
 	colorScale = d3.scaleLinear()
-		.domain( [0, MaxPosts] )
+		.domain( [0, maxPosts] )
 		.range( ['gray', 'green'] );
 
 	yScale = d3.scaleLinear()
-		.domain( [0, MaxPosts] )
+		.domain( [0, maxPosts] )
 		.range( [height, 0] );
 
 	monthChartSvg = d3.select( '#tyw_month_chart' )
 		.attr( 'width', width + margin.right + margin.left )
 		.attr( 'height', height + margin.bottom + margin.top )
 		.append( 'g' )
-		.attr( 'transform', 'translate('+ margin.left + ', ' + margin.top + ')' );
+		.attr( 'transform', 'translate(' + margin.left + ', ' + margin.top + ')' );
 
 
 	monthChartBar = monthChartSvg.selectAll( 'g' )
 		.data( data )
 		.enter()
 		.append( 'rect' )
-		.attr( 'height', function(d) {
+		.attr( 'height', function( d ) {
 			return height - yScale( d.posts );
 		} )
 		.attr( 'width', barWidth - padding )
-		.attr( 'x', function(d, i) {
+		.attr( 'x', function( d, i ) {
 			return i * barWidth;
 		} )
-		.attr( 'y', function(d) {
-			return yScale(d.posts);
+		.attr( 'y', function( d ) {
+			return yScale( d.posts );
 		} )
-		.attr( 'fill', function(d) {
-			return colorScale( d.posts);
+		.attr( 'fill', function( d ) {
+			return colorScale( d.posts );
 		} );
 
-	yAxis = d3.axisLeft( yScale);
+	yAxis = d3.axisLeft( yScale );
 
 	d3.select( '#tyw_month_chart' )
 		.append( 'g' )
-		.attr( 'transform', 'translate('+ margin.left + ',' + margin.top + ')' )
+		.attr( 'transform', 'translate(' + margin.left + ',' + margin.top + ')' )
 		.call( yAxis );
 
 
@@ -64,14 +64,14 @@ var tywChart = jQuery( document ).ready( function() {
 		.domain( [new Date( year, 0, 1 ), new Date( year, 11, 31 )] )
 		.range( [0, width] );
 
-	xAxis = d3.axisBottom( xScale)
+	xAxis = d3.axisBottom( xScale )
 		.tickFormat( d3.timeFormat( '%b' ) )
 		.tickPadding( [tickPadding] );
 
 	d3.select( '#tyw_month_chart' )
 		.append( 'g' )
 		.attr( 'class', 'x axis' )
-		.attr( 'transform', 'translate(' + margin.left +',' + (height + margin.top +')' ) )
+		.attr( 'transform', 'translate(' + margin.left + ',' + (height + margin.top + ')' ) )
 		.call( xAxis )
 		.selectAll( '.tick text' )
 		.style( 'text-anchor', 'start' )

@@ -36,12 +36,6 @@
 	font-weight: 600;
 }
 
-.writing-goals h1 {
-	color: #00a000;
-	font-weight: 600; !important;
-	border-bottom: 1px solid #efefef;
-}
-
 .writing-goals p {
 	font-size: 20px;
 }
@@ -52,16 +46,6 @@
 }
 
 .writing-data h2 {
-	border-bottom: 1px solid #efefef;
-}
-.set-goals {
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-.set-goals h1 {
-	color: #a00058;
-	font-weight: 600; !important;
 	border-bottom: 1px solid #efefef;
 }
 
