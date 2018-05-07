@@ -78,7 +78,7 @@ class Admin {
 	 * Enqueues the CSS styles.
 	 */
 	public function add_styles() {
-		wp_enqueue_style( 'track_your_writing_css', plugins_url( '../css/track-your-writing.css', __FILE__ ) );
+		wp_enqueue_style( 'track_your_writing_css', plugins_url( '../css/track-your-writing.css', __FILE__ ), array(), Plugin::VERSION );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Admin {
 	 */
 	public function add_scripts() {
 		wp_enqueue_script( 'd3-scripts', plugins_url( '../vendor/d3/d3.min.js', __FILE__ ) );
-		wp_enqueue_script( 'tyw-scripts', plugins_url( '../js/tyw-scripts.js', __FILE__ ), array( 'jquery' ), '', true );
+		wp_enqueue_script( 'tyw-scripts', plugins_url( '../js/tyw-scripts.js', __FILE__ ), array( 'jquery' ), Plugin::VERSION, true );
 		wp_localize_script( 'tyw-scripts', 'tyw_month_chart_data', $this->plugin->components->user_writing_data->month_chart_post_data() );
 	}
 
@@ -125,9 +125,7 @@ class Admin {
 				$this->single_mode_process_form();
 				?>
 			</form>
-			<?php
-			$profile_data = $this->plugin->components->profile_manager->user_profile();
-			?>
+			<?php $profile_data = $this->plugin->components->profile_manager->user_profile(); ?>
 			<div class="tyw-avatar">
 				<img src="<?php echo esc_url( $profile_data['avatar'] ); ?>">
 			</div>

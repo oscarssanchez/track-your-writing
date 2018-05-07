@@ -1,7 +1,7 @@
 # track-your-writing
 ![Select an image, add text, and choose a link.](assets/titlebar.png)
 
-Track your writing tracks your most important writing data, ready to be challenged and beaten up. Level up your letter game!
+Track Your Writing tracks your most important writing data, ready to be challenged and beaten up. Level up your letter game!
 
 **Contributors:** [oscarssanchez](https://profiles.wordpress.org/oscarssanchez)  
 **Tested up to:** 4.9  
@@ -11,9 +11,9 @@ Track your writing tracks your most important writing data, ready to be challeng
 
 # Description 
 
-Track yourwriting sparkles the author's interest to start writing more
+Track Your Writing sparks the author's interest to start writing more
 often and with higher quality by showing you your own progress. It can show the progress of multiple authors,
-so if you have a website with multiple collaborators, everybody knows how well (or bad!) they are performing.
+so if you have a website with multiple collaborators, everybody knows how well (or badly!) they are performing.
 
 # Screenshots
 

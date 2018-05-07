@@ -8,11 +8,18 @@
 namespace TrackYourWriting;
 
 /**
- * Instantiates and initializes the plugin.
+ * Instantiates and initializes the plugin classes.
  *
  * @package TrackYourWriting
  */
 class Plugin {
+
+	/**
+	 * Plugin version.
+	 *
+	 * @var string
+	 */
+	const VERSION = '0.1';
 
 	/**
 	 * The plugin instance.
@@ -49,7 +56,7 @@ class Plugin {
 	}
 
 	/**
-	 * Instantiates and loads the plugin classes.
+	 * Loads and instantiates the plugin classes
 	 */
 	public function load_classes() {
 		$this->components        = new \stdClass();
