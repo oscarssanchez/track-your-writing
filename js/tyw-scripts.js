@@ -1,4 +1,4 @@
-var tywChart = jQuery( document ).ready( function() {
+var tywChart = document.addEventListener( 'DOMContentLoaded', function () {
 
 	var data = JSON.parse( tyw_month_chart_data );
 
@@ -30,7 +30,6 @@ var tywChart = jQuery( document ).ready( function() {
 		.append( 'g' )
 		.attr( 'transform', 'translate(' + margin.left + ', ' + margin.top + ')' );
 
-
 	monthChartBar = monthChartSvg.selectAll( 'g' )
 		.data( data )
 		.enter()
@@ -56,7 +55,6 @@ var tywChart = jQuery( document ).ready( function() {
 		.attr( 'transform', 'translate(' + margin.left + ',' + margin.top + ')' )
 		.call( yAxis );
 
-
 	currentTime = new Date();
 	year = currentTime.getFullYear();
 
@@ -71,11 +69,10 @@ var tywChart = jQuery( document ).ready( function() {
 	d3.select( '#tyw_month_chart' )
 		.append( 'g' )
 		.attr( 'class', 'x axis' )
-		.attr( 'transform', 'translate(' + margin.left + ',' + (height + margin.top + ')' ) )
+		.attr( 'transform', 'translate(' + margin.left + ',' + ( height + margin.top + ')' ) )
 		.call( xAxis )
 		.selectAll( '.tick text' )
 		.style( 'text-anchor', 'start' )
 		.attr( 'x', 12 )
 		.attr( 'y', 6 );
-
 });

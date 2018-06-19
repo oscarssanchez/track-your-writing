@@ -29,11 +29,18 @@ class Admin {
 	const SLUG = 'track-your-writing';
 
 	/**
-	 * Action to submit a new user.
+	 * The nonce name.
 	 *
-	 * @var string.
+	 * @var string
 	 */
-	const FORM_ACTION = 'tyw_submit_user';
+	const NONCE_NAME = 'track-you-writing-user-nonce';
+
+	/**
+	 * The nonce action
+	 *
+	 * @var string
+	 */
+	const NONCE_ACTION = 'track-your-writing-update';
 
 	/**
 	 * Instantiate this class.
@@ -49,6 +56,7 @@ class Admin {
 	 */
 	public function init() {
 		add_action( 'admin_menu', array( $this, 'admin_menus' ) );
+		add_action( 'admin_post_track-your-writing-update', array( $this, 'save' ) );
 		add_action( 'admin_head', array( $this, 'add_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 		add_action( 'init', array( $this, 'textdomain' ) );
@@ -63,7 +71,7 @@ class Admin {
 			__( 'Track your writing', 'track-your-writing' ),
 			'manage_options',
 			'wp-trackyw',
-			array( $this, 'render_single_mode' )
+			array( $this, 'render_admin_page' )
 		);
 	}
 
@@ -93,98 +101,33 @@ class Admin {
 	/**
 	 * Renders the whole admin page.
 	 */
-	public function render_single_mode() {
-		$this->render_admin_header();
-		$this->render_user_profile();
-		$this->render_writing_stats();
-		$this->render_set_goals();
+	public function render_admin_page() {
+		include( dirname( __FILE__ ) . '/../templates/single-mode-page.php' );
 	}
 
 	/**
-	 * Renders the admin header.
+	 * Process update profile form
 	 */
-	public function render_admin_header() {
-		?>
-		<div><h1><?php esc_html_e( 'Track Your Writing', 'track-your-writing' ); ?></h1>
-		<?php
-	}
+	public function save() {
+		$verify = (
+			isset( $_POST[ self::NONCE_NAME ] )
+			&&
+			wp_verify_nonce( sanitize_key( wp_unslash( $_POST[ self::NONCE_NAME ] ) ), self::NONCE_ACTION )
+		);
 
-	/**
-	 * Renders the user profile section.
-	 */
-	public function render_user_profile() {
-		?>
-		<div id="tyw-profile" class="postbox wrap">
-			<h2><?php esc_html_e( 'Select a profile', 'track-your-writing' ); ?></h2>
-			<p class="description"><?php esc_html_e( 'Select an author', 'track-your-writing' ); ?></p>
-			<form method="post" action="">
-				<?php
-				wp_nonce_field( self::FORM_ACTION, 'tyw_submit_user_nonce' );
-				$this->plugin->components->profile_manager->user_list();
-				submit_button( __( 'Update user', 'track-your-writing' ) );
-				$this->single_mode_process_form();
-				?>
-			</form>
-			<?php $profile_data = $this->plugin->components->profile_manager->user_profile(); ?>
-			<div class="tyw-avatar">
-				<img src="<?php echo esc_url( $profile_data['avatar'] ); ?>">
-			</div>
-			<div class="tyw-avatar-data">
-				<div class="tyw-avatar-data">
-					<p><span><?php esc_html_e( 'Username', 'track-your-writing' ); ?>:</span> <?php echo esc_html( $profile_data['username'] ); ?></p>
-					<p><span><?php esc_html_e( 'Role', 'track-your-writing' ); ?>:</span> <?php echo esc_html( $profile_data['role'] ); ?></p>
-					<p><span><?php esc_html_e( 'Email', 'track-your-writing' ); ?>:</span> <?php echo esc_html( $profile_data['email'] ); ?></p>
-				</div>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Render the current user statistics.
-	 */
-	public function render_writing_stats() {
-		$author_totals = $this->plugin->components->user_writing_data->author_total_stats();
-		$author_month  = $this->plugin->components->user_writing_data->author_month_stats();
-		?>
-		<div class="tyw-settings-left">
-			<div class="postbox wrap writing-data">
-				<h2><span class="dashicons dashicons-chart-bar"></span> <?php esc_html_e( 'Your Stats', 'track-your-writing' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'Display your current Statistics', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['total_posts'] ); ?></span> <?php esc_html_e( ' Total Posts', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_month['month_posts'] ); ?></span><?php esc_html_e( ' Posts written this Month', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['total_words'] ); ?></span><?php esc_html_e( ' Words written in Total', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_month['month_words'] ); ?></span><?php esc_html_e( ' Words written this Month', 'track-your-writing' ); ?></p>
-				<p><span class="tyw-totals"><?php echo esc_html( $author_totals['avg_words'] ); ?></span><?php esc_html_e( ' Words per post on Average', 'track-your-writing' ); ?></p>
-			</div>
-		<?php
-	}
-
-	/**
-	 * Render the current user goals.
-	 */
-	public function render_set_goals() {
-		?>
-				<div class="postbox wrap writing-data ">
-					<h1><?php esc_html_e( 'Compare', 'track-your-writing' ); ?> </h1>
-					<p class="description"><?php esc_html_e( 'Compare your progress here', 'track-your-writing' ); ?></p>
-					<div id="tyw_compare_section">
-						<h1><?php esc_html_e( 'Posts per Month', 'track-your-writing' ); ?></h1>
-						<svg id="tyw_month_chart"></svg>
-					</div>
-				</div>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Process single mode form.
-	 */
-	public function single_mode_process_form() {
-		if ( isset( $_POST['tyw_submit_user_nonce'] ) && wp_verify_nonce( $_POST['tyw_submit_user_nonce'], self::FORM_ACTION ) && isset( $_POST['tyw_user_profile_id'] ) ) {
+		if ( $verify ) {
 			update_option( 'tyw_user_profile_id', sanitize_text_field( wp_unslash( $_POST['tyw_user_profile_id'] ) ) );
+			wp_redirect( $this->admin_url() . '&updated=true' );
+			exit;
 		}
 	}
 
+	/**
+	 * Returns the admin url of the Plugin.
+	 *
+	 * @return string
+	 */
+	public function admin_url() {
+		return admin_url( '/admin.php?page=wp-trackyw' );
+	}
 }
