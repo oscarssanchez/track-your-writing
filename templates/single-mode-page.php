@@ -1,7 +1,23 @@
-<div><h1><?php esc_html_e( 'Track Your Writing', 'track-your-writing' ); ?></h1>
+<?php
+/**
+ * The admin page template.
+ *
+ * @package track-your-writing
+ */
+
+namespace TrackYourWriting;
+
+defined( 'WPINC' ) or die;
+
+// Check referrer.
+if ( ! ( $this instanceof Admin ) ) {
+	return;
+}
+?>
+<div class="wrap">
+	<h2><?php echo esc_html( $GLOBALS['title'] ); ?></h2>
 	<div id="tyw-profile" class="postbox wrap">
-		<h2><?php esc_html_e( 'Select a profile', 'track-your-writing' ); ?></h2>
-		<p class="description"><?php esc_html_e( 'Select an author', 'track-your-writing' ); ?></p>
+		<h3><?php esc_html_e( 'Select a profile', 'track-your-writing' ); ?></h3>
 		<form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" class="track-your-writing-form">
 			<input type="hidden" name="action" value="track-your-writing-update">
 			<?php
