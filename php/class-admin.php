@@ -60,6 +60,17 @@ class Admin {
 		add_action( 'admin_head', array( $this, 'add_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 		add_action( 'init', array( $this, 'textdomain' ) );
+
+		if ( isset( $_GET['user_updated'] ) ) {
+			add_action( 'admin_notices', array( $this, 'user_update_notice' ) );
+		}
+	}
+
+	/**
+	 * Displays an admin notice when a user is selected.
+	 */
+	public function user_update_notice() {
+		include( ( dirname( __FILE__ ) . '/../templates/user-update.php' ) );
 	}
 
 	/**
@@ -117,7 +128,7 @@ class Admin {
 
 		if ( $verify ) {
 			update_option( 'tyw_user_profile_id', sanitize_text_field( wp_unslash( $_POST['tyw_user_profile_id'] ) ) );
-			wp_redirect( $this->admin_url() . '&updated=true' );
+			wp_redirect( $this->admin_url() . '&user_updated=true' );
 			exit;
 		}
 	}
@@ -128,6 +139,6 @@ class Admin {
 	 * @return string
 	 */
 	public function admin_url() {
-		return admin_url( '/admin.php?page=wp-trackyw' );
+		return admin_url( 'admin.php?page=wp-trackyw' );
 	}
 }
