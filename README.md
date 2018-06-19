@@ -29,5 +29,14 @@ so if you have a website with multiple collaborators, everybody knows how well (
 
 ## Changelog ##
 
-* 0.1 Release
+## 0.2 ##
+
+* Add admin notice when user updated.
+* Add admin page template file.
+* Performance changes in how data is fetched and organized.
+* Plugin refactoring.
+
+## 0.1 ##
+
+* Release.
     
