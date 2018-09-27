@@ -20,14 +20,17 @@ class User_Writing_Data {
 	 */
 	public function author_total_stats() {
 		$args = array(
-			'author'         => get_option( 'tyw_user_profile_id' ),
-			'post_type'      => array( 'page', 'post' ),
-			'post_status'    => 'publish',
-			'posts_per_page' => 500,
+			'author'                 => get_option( 'tyw_user_profile_id' ),
+			'post_type'              => array( 'page', 'post' ),
+			'post_status'            => 'publish',
+			'posts_per_page'         => 400,
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
 		);
-
 		$query       = new \WP_Query( $args );
 		$total_words = 0;
+
 		foreach ( $query->posts as $post ) {
 			$content = str_word_count( $post->post_content );
 			$total_words += $content;
@@ -54,11 +57,14 @@ class User_Writing_Data {
 	 */
 	public function author_month_stats() {
 		$args = array(
-			'author'         => get_option( 'tyw_user_profile_id' ),
-			'post_type'      => array( 'page', 'post' ),
-			'post_status'    => 'publish',
-			'posts_per_page' => 100,
-			'date_query'     => array(
+			'author'                 => get_option( 'tyw_user_profile_id' ),
+			'post_type'              => array( 'page', 'post' ),
+			'post_status'            => 'publish',
+			'posts_per_page'         => 100,
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+			'date_query'             => array(
 				array(
 					'after' => '30 days ago',
 				),
@@ -66,6 +72,7 @@ class User_Writing_Data {
 		);
 		$query         = new \WP_Query( $args );
 		$monthly_words = 0;
+
 		foreach ( $query->posts as $post ) {
 			$content = str_word_count( $post->post_content );
 			$monthly_words += $content;
@@ -85,16 +92,20 @@ class User_Writing_Data {
 	 */
 	public function month_chart_post_data() {
 		$args = array(
-			'author'         => get_option( 'tyw_user_profile_id' ),
-			'post_type'      => array( 'page', 'post' ),
-			'post_status'    => 'publish',
-			'posts_per_page' => 100,
-			'date_query'     => array(
+			'author'                 => get_option( 'tyw_user_profile_id' ),
+			'post_type'              => array( 'page', 'post' ),
+			'post_status'            => 'publish',
+			'posts_per_page'         => 100,
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+			'date_query'             => array(
 				array(
 					'year' => date( 'Y' ),
 				),
 			),
 		);
+
 		$query = new \WP_Query( $args );
 		if ( null == $query->found_posts ) {
 			return null;
@@ -116,7 +127,6 @@ class User_Writing_Data {
 		}
 
 		return json_encode( $month_chart_data );
-
 	}
 
 }
