@@ -1,72 +1,98 @@
-/* SVG CHARTS */
-#tyw_month_chart {
-	margin-top: 1%;
-	margin-bottom: 5%;
-	width: inherit;
-	text-align: center;
-}
-
-/*
-* Writing stats
-*/
-
-.tyw-totals {
-	font-size: 20px;
-}
-
-.tyw-settings-left {
-	width: 60%;
-	float: left;
-}
-
-.tyw-sidebar-left {
-	width: 40%;
-	float:left;
-}
-
-.tyw-goal-setting {
-	float: left;
-	width: 60%;
-}
-
-.writing-goals {
-	padding-left: 20px;
-	padding-right: 20px;
-	text-align: center;
-	font-weight: 600;
-}
-
-.writing-goals p {
-	font-size: 20px;
-}
-
-.writing-data {
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-.writing-data h2 {
-	border-bottom: 1px solid #efefef;
-}
-
-/*
-* Profile
-*/
-
 #tyw-profile {
-	padding-left: 20px;
+	display:flex;
+	flex-wrap: wrap;
+	padding: 30px;
+	margin-bottom: 40px;
 }
 
-.tyw-avatar {
-	float: right;
-	margin-right: 20px;
+.tyw-user {
+	display:flex;
 }
 
-.tyw-avatar-data {
-	margin: 0;
-	font-size: 14px;
+.track-your-writing-form  {
+	padding: 30px;
 }
 
-.tyw-avatar-data span {
-	font-weight: 600;
+.track-your-writing-form p {
+	padding: 0;
+	margin: 15px 0px 0px 0px;
+}
+
+.track-your-writing-form label {
+	font-size: 1.6em;
+}
+
+.tyw-settings-stats h2 {
+	font-size: 2.3em;
+	font-weight: 400;
+	margin-bottom: 15px;
+}
+
+.tyw-settings-stats span {
+	font-weight: 400;
+}
+
+.tyw-writing-stats {
+	display: flex;
+	padding: 30px;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.tyw-item-label {
+	font-size: 1.3em;
+}
+
+.tyw-item-data {
+	text-align: center;
+	font-size: 2em;
+	font-weight: 700;
+}
+
+.tyw-welcome {
+	width: 100%;
+}
+
+.tyw-welcome h2 {
+	width: 100%;
+	color: black;
+	font-size: 3em;
+	margin: 0 0 15px 0;
+}
+
+.tyw-welcome p {
+	width: 100%;
+	font-size: 2.3em;
+	color: #646464;
+	margin: 0 0 30px 0;
+}
+
+.tyw-year {
+	width: 40%;
+}
+
+.tyw-year h3 {
+	color: #646464;
+	font-size: 2.3em;
+	margin: 10px 0 0 0;
+	font-weight: normal;
+}
+
+.tyw-stats-group {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+}
+
+#tyw-chart-section {
+	width: 60%;
+    text-align: center;
+}
+
+#tyw-chart-section p {
+    color: #64646485;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.2em;
 }

@@ -50,10 +50,12 @@ class Profile_Manager {
 		$user_data = get_userdata( get_option( 'tyw_user_profile_id' ) );
 
 		return array(
-			'avatar'   => get_avatar_url( get_option( 'tyw_user_profile_id' ) ),
-			'username' => $user_data->user_login,
-			'role'     => implode( $user_data->roles ),
-			'email'    => $user_data->user_email,
+			'avatar'     => get_avatar_url( get_option( 'tyw_user_profile_id' ), array ( 'size' => 150 ) ),
+			'first_name' => $user_data->first_name,
+			'full_name'  => $user_data->display_name,
+			'username'   => $user_data->user_login,
+			'role'       => implode( $user_data->roles ),
+			'email'      => $user_data->user_email,
 		);
 	}
 }

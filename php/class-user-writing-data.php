@@ -23,8 +23,7 @@ class User_Writing_Data {
 			'author'                 => get_option( 'tyw_user_profile_id' ),
 			'post_type'              => array( 'page', 'post' ),
 			'post_status'            => 'publish',
-			'posts_per_page'         => 400,
-			'no_found_rows'          => true,
+			'posts_per_page'         => 500,
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
 		);
@@ -35,7 +34,7 @@ class User_Writing_Data {
 			$content = str_word_count( $post->post_content );
 			$total_words += $content;
 		}
-		if ( empty( $total_words ) ) {
+		if ( empty( $total_words ) || 0 === $query->found_posts ) {
 			$avg = 0;
 		} else {
 			$avg = round( $total_words / $query->found_posts );
@@ -61,7 +60,6 @@ class User_Writing_Data {
 			'post_type'              => array( 'page', 'post' ),
 			'post_status'            => 'publish',
 			'posts_per_page'         => 100,
-			'no_found_rows'          => true,
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
 			'date_query'             => array(
@@ -96,7 +94,6 @@ class User_Writing_Data {
 			'post_type'              => array( 'page', 'post' ),
 			'post_status'            => 'publish',
 			'posts_per_page'         => 100,
-			'no_found_rows'          => true,
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
 			'date_query'             => array(

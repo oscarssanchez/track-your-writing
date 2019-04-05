@@ -19,7 +19,7 @@ class Plugin {
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.1';
+	const VERSION = '0.2';
 
 	/**
 	 * The plugin instance.
